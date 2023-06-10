@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { UserListState, User } from '../../types';
 
@@ -21,7 +21,15 @@ export const fetchUserList = createAsyncThunk(
 export const userListSlice = createSlice({
   name: 'userList',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteUser: (state, action: PayloadAction<User['id']>) => {
+      const userList = state.users.filter((user) => user.id !== action.payload);
+      return {
+        ...state,
+        users: userList,
+      };
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchUserList.pending, (state) => {
@@ -30,7 +38,12 @@ export const userListSlice = createSlice({
       .addCase(fetchUserList.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.users = action.payload.map((user: User) => {
-          return { name: user.name, email: user.email, phone: user.phone };
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          };
         });
       })
       .addCase(fetchUserList.rejected, (state, action) => {
@@ -39,5 +52,5 @@ export const userListSlice = createSlice({
       });
   },
 });
-
-export const userListReducer = userListSlice.reducer;
+export const { deleteUser } = userListSlice.actions;
+export default userListSlice.reducer;

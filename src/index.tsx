@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import { UserList } from './features/userList';
-import reportWebVitals from './reportWebVitals';
-import store from './app/store';
 import { Provider } from 'react-redux';
+
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import App from './App';
+import store from './app/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <UserList />
+      <App />
     </Provider>
   </React.StrictMode>
 );
