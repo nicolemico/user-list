@@ -8,6 +8,7 @@ const initialState: UserListState = {
   error: '',
 };
 
+// Get request for fetching users
 export const fetchUserList = createAsyncThunk(
   'jsonplaceholder/users',
   async () => {
@@ -52,5 +53,6 @@ export const userListSlice = createSlice({
       });
   },
 });
+
 export const { deleteUser } = userListSlice.actions;
 export default userListSlice.reducer;

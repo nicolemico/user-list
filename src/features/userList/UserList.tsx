@@ -2,17 +2,17 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/solid';
 
-import { UserCards } from './UserCards';
+import { UserCard } from './UserCard';
 import { fetchUserList } from './userListSlice';
 import type { AppDispatch, RootState } from '../../app/store';
 import { deleteUser } from './userListSlice';
 import { swalAlert } from '../../utils';
 import type { User } from '../../types';
+import { UserListSkeleton } from './UserListSkeleton';
 
 export const UserList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const status = useSelector((state: RootState) => state.userList.status);
-  const users = useSelector((state: RootState) => state.userList.users);
+  const { status, users } = useSelector((state: RootState) => state.userList);
 
   useEffect(() => {
     if (status === 'pending') {
@@ -25,45 +25,44 @@ export const UserList = () => {
         title: 'Error',
         html: 'An error has occured while fetching users.',
         icon: 'error',
-        toast: true,
       });
     }
   }, [dispatch, status]);
 
   const handleRemoveUser = async (user: User) => {
     const { isConfirmed } = await swalAlert({
-      title: 'Confirm delete',
+      title: 'Confirm',
       html: `<p>Are you sure you want to delete user <b>${user.name}</b>?</p>`,
       showCancelButton: true,
       icon: 'question',
     });
 
-    if (isConfirmed) dispatch(deleteUser(user.id));
+    if (!isConfirmed) return;
+
+    dispatch(deleteUser(user.id));
+    swalAlert({
+      title: 'Success',
+      html: `<p>Successfully deleted user <b>${user.name}</b>.</p>`,
+      icon: 'success',
+    });
   };
 
   return (
     <ul className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {status === 'loading' ? (
-        <>
-          {Array.from({ length: 12 }).map((value, index) => (
-            <UserCards
-              key={`skeleton-${index}`}
-              isLoading={true}
-            />
-          ))}
-        </>
+        <UserListSkeleton />
       ) : (
         <>
           {users.length > 0 ? (
             users.map((user, index) => (
-              <UserCards
+              <UserCard
                 user={user}
                 key={`usercard-${index}`}
                 removeUser={handleRemoveUser}
               />
             ))
           ) : (
-            <div className='flex flex-col gap-6 items-center justify-center w-100 h-[650px] bg-white rounded-lg shadow'>
+            <div className='col-span-3 flex flex-col gap-6 items-center justify-center w-full h-[650px] bg-white rounded-lg shadow'>
               <ArchiveBoxXMarkIcon className='h-12 w-12 text-gray-400' />
               <span className='text-lg'>No data to display.</span>
             </div>

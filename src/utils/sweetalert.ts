@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import type { SweetAlertOptions } from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
@@ -6,19 +7,10 @@ const MySwal = withReactContent(Swal);
 const buttonClass =
   'focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2';
 
-export const swalAlert = ({
-  title = '',
-  html = '',
-  icon,
-  toast = false,
-  showCancelButton = false,
-}: SwalProps) => {
+// Util function for sweetAlert with custom design
+export const swalAlert = (swalOptions: SweetAlertOptions) => {
   return MySwal.fire({
-    title,
-    html,
-    icon: icon,
-    toast,
-    showCancelButton,
+    ...swalOptions,
     buttonsStyling: false,
     customClass: {
       actions: '!justify-end',
@@ -27,11 +19,3 @@ export const swalAlert = ({
     },
   });
 };
-
-interface SwalProps {
-  html?: string;
-  title?: string;
-  icon?: 'success' | 'error' | 'warning' | 'info' | 'question';
-  toast?: boolean;
-  showCancelButton?: boolean;
-}
