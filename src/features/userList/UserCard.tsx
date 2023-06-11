@@ -6,15 +6,20 @@ export const UserCard = ({ user, removeUser }: UserCardsProp) => {
   const handleClickRemoveUser = (user: User) => () => removeUser?.(user);
 
   return (
-    <Card>
+    <Card data-testid='user-card'>
       <div className='flex justify-between p-6'>
-        <h3 className='truncate font-medium text-gray-900'>{user.name}</h3>
+        <h3
+          className='truncate font-medium text-gray-900'
+          data-testid='user-name'
+        >
+          {user.name}
+        </h3>
         <XMarkIcon
           className='h-4 w-4 text-gray-400 transition-transform hover:text-red-500 hover:-rotate-90 hover:cursor-pointer'
           onClick={user && handleClickRemoveUser(user)}
         />
       </div>
-      <div className='flex flex-col  xl:flex-row divide-y xl:divide-x xl:divide-y-0 divide-gray-200'>
+      <div className='flex flex-col xl:flex-row divide-y xl:divide-x xl:divide-y-0 divide-gray-200'>
         <div className='flex flex-1'>
           <a
             href={`mailto:${user.email}`}

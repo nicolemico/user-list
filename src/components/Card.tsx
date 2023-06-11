@@ -1,8 +1,11 @@
 import type { PropsWithChildren } from 'react';
 
-export const Card = ({ children }: PropsWithChildren) => {
+export const Card = ({ children, ...rest }: PropsWithChildren) => {
   return (
-    <li className='col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow hover:shadow-md'>
+    <li
+      className='col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow hover:shadow-md'
+      {...rest}
+    >
       {children}
     </li>
   );
