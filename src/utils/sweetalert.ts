@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import type { SweetAlertOptions } from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-const MySwal = withReactContent(Swal);
+export const MySwal = withReactContent(Swal);
 
 const buttonClass =
   'focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2';

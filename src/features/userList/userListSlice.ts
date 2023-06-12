@@ -2,10 +2,9 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { UserListState, User } from '../../types';
 
-const initialState: UserListState = {
+export const initialState: UserListState = {
   users: [],
   status: 'pending',
-  error: '',
 };
 
 // Get request for fetching users
@@ -49,7 +48,6 @@ export const userListSlice = createSlice({
       })
       .addCase(fetchUserList.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
       });
   },
 });

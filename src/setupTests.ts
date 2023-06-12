@@ -3,15 +3,27 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-
-// src/setupTests.js
 import { server } from './mocks/server.js';
+
+// mock window.scrollTo
+window.scrollTo = (options: ScrollToOptions | undefined) => {
+  document.documentElement.scrollTop = options?.top ?? 0;
+};
+
 // Establish API mocking before all tests.
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+});
 
 // Reset any request handlers that we may add during the tests,
 // so they don't affect other tests.
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  jest.resetAllMocks();
+  server.resetHandlers();
+});
 
 // Clean up after the tests are finished.
-afterAll(() => server.close());
+afterAll(() => {
+  jest.clearAllMocks();
+  server.close();
+});

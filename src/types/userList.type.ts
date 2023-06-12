@@ -8,5 +8,4 @@ export interface User {
 export type UserListState = {
   status: 'pending' | 'loading' | 'succeeded' | 'failed';
   users: User[];
-  error: string | undefined;
 };

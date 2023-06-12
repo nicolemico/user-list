@@ -47,26 +47,28 @@ export const UserList = () => {
     });
   };
 
+  if (status === 'failed' || (status === 'succeeded' && users.length === 0)) {
+    return (
+      <div className='col-span-3 flex flex-col gap-6 items-center justify-center w-full h-[650px] bg-white rounded-lg shadow'>
+        <ArchiveBoxXMarkIcon className='h-12 w-12 text-gray-400' />
+        <span className='text-lg'>No data to display.</span>
+      </div>
+    );
+  }
+
   return (
     <ul className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {status === 'loading' ? (
         <UserListSkeleton />
       ) : (
         <>
-          {users.length > 0 ? (
-            users.map((user, index) => (
-              <UserCard
-                user={user}
-                key={`usercard-${index}`}
-                removeUser={handleRemoveUser}
-              />
-            ))
-          ) : (
-            <div className='col-span-3 flex flex-col gap-6 items-center justify-center w-full h-[650px] bg-white rounded-lg shadow'>
-              <ArchiveBoxXMarkIcon className='h-12 w-12 text-gray-400' />
-              <span className='text-lg'>No data to display.</span>
-            </div>
-          )}
+          {users.map((user, index) => (
+            <UserCard
+              user={user}
+              key={`usercard-${index}`}
+              removeUser={handleRemoveUser}
+            />
+          ))}
         </>
       )}
     </ul>

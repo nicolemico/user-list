@@ -9,21 +9,23 @@ export const UserCard = ({ user, removeUser }: UserCardsProp) => {
     <Card data-testid='user-card'>
       <div className='flex justify-between p-6'>
         <h3
-          className='truncate font-medium text-gray-900'
+          className='truncate text-xl font-medium text-gray-900 transform group-hover:text-blue-700'
           data-testid='user-name'
         >
           {user.name}
         </h3>
         <XMarkIcon
+          data-testid='user-delete-button'
           className='h-4 w-4 text-gray-400 transition-transform hover:text-red-500 hover:-rotate-90 hover:cursor-pointer'
           onClick={user && handleClickRemoveUser(user)}
         />
       </div>
-      <div className='flex flex-col xl:flex-row divide-y xl:divide-x xl:divide-y-0 divide-gray-200'>
+      <div className='flex flex-col p-6'>
         <div className='flex flex-1'>
           <a
             href={`mailto:${user.email}`}
-            className='relative inline-flex items-center w-0 flex-1 gap-x-3 rounded-bl-lg border border-transparent p-4 text-sm font-semibold text-gray-900 break-all'
+            className='relative inline-flex items-center w-0 flex-1 gap-x-3 rounded-bl-lg border border-transparent py-2 font-semibold text-gray-900 break-all hover:underline'
+            data-testid='user-email'
           >
             <EnvelopeIcon className='h-6 w-6 text-gray-400' />
             {user.email}
@@ -32,7 +34,8 @@ export const UserCard = ({ user, removeUser }: UserCardsProp) => {
         <div className='flex flex-1'>
           <a
             href={`tel:${user.phone}`}
-            className='relative inline-flex items-center w-0 flex-1 gap-x-3 rounded-br-lg border border-transparent p-4 text-sm font-semibold text-gray-900 break-all'
+            className='relative inline-flex items-center w-0 flex-1 gap-x-3 rounded-br-lg border border-transparent py-2 font-semibold text-gray-900 break-all hover:underline'
+            data-testid='user-phone'
           >
             <PhoneIcon className='h-6 w-6 text-gray-400' />
             {user?.phone}
@@ -45,5 +48,5 @@ export const UserCard = ({ user, removeUser }: UserCardsProp) => {
 
 type UserCardsProp = {
   user: User;
-  removeUser: (user: User) => void;
+  removeUser?: (user: User) => void;
 };
